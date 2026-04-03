@@ -12,16 +12,16 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Default route redirects to Dashboard */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        
-        {/* Main Routes */}
+        {/* The "/" path is the very first thing the user sees */}
+        <Route path="/" element={<LandingPage />} />
+
+
+        {/* <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/academics" element={<Academics />} />
         <Route path="/grievances" element={<Grievances />} />
-        
-        {/* 404 Catch-All */}
-        <Route path="*" element={<div className="p-10 text-center text-2xl font-bold">404 - Page Not Found</div>} />
+        <Route path="/mental-health" element={<MentalHealth />} /> */}
+
       </Routes>
     </Router>
   );
