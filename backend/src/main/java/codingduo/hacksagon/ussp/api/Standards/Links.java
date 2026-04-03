@@ -1,0 +1,15 @@
+package codingduo.hacksagon.ussp.api.Standards;
+
+public class Links {
+    public static final String[] PUBLIC_ENDPOINTS = {
+            "/user/register",
+            "/user/login",
+            "/user/refresh",
+            "/error",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/webjars/**"
+    };
+}
