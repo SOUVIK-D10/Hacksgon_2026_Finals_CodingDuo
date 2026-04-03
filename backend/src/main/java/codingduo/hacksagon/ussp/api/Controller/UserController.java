@@ -18,6 +18,7 @@ import codingduo.hacksagon.ussp.api.Exception.GeneralException;
 import codingduo.hacksagon.ussp.api.Model.UserData;
 import codingduo.hacksagon.ussp.api.Model.Users;
 import codingduo.hacksagon.ussp.api.Service.UserService;
+import codingduo.hacksagon.ussp.api.Standards.Role;
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -28,6 +29,7 @@ public class UserController {
     }
     @PostMapping("/register")
     public ResponseEntity<TokenDTO> registerUser(@AuthenticationPrincipal UserData details, @RequestBody Users user) throws GeneralException{
+        if(!details.getRole().equals(Role.ADMIN)) throw new GeneralException("401:Not authorized for this endpoint");
         return new ResponseEntity<>(service.register(user));
     }
     @PostMapping("/login")
