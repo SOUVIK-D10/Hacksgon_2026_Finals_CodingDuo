@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
-import WellnessBooking from '../components/WellnessBooking'
+import WellnessBooking from '../components/WellnessBooking';
 import MyAppointments from '../components/MyAppointments';
 
 export default function MentalHealth() {
@@ -14,13 +14,16 @@ export default function MentalHealth() {
         { id: 3, name: "Ms. Priya Singh", specialty: "General Well-being & Adjustment", availability: "Wed, 2:30 PM", initial: "P" }
     ];
 
-    const [bookingMessage, setBookingMessage] = useState('')
-    const [journalEntry, setJournalEntry] = useState('')
+    const [bookingMessage, setBookingMessage] = useState('');
+    const [journalEntry, setJournalEntry] = useState('');
 
     const [isSosLoading, setIsSosLoading] = useState(false);
     const [sosMessage, setSosMessage] = useState('');
 
     const [selectedCounselor, setSelectedCounselor] = useState(null);
+
+    // New State for the 2-step confirmation
+    const [showSosConfirm, setShowSosConfirm] = useState(false);
 
     const handleSOSAlert = () => {
         setIsSosLoading(true);
@@ -49,12 +52,13 @@ export default function MentalHealth() {
                             latitude: lat.toString(),
                             longitude: lng.toString()
                         })
-
-
-                    })
+                    });
 
                     if (response.ok) {
                         setSosMessage(`🚨 SOS Alert Sent! Campus Security has been notified of your exact location (Lat: ${lat.toFixed(3)}, Lng: ${lng.toFixed(3)}).`);
+
+                        setIsSosLoading(false);
+                        setShowSosConfirm(false); // Reset UI on success
                         setTimeout(() => setSosMessage(''), 10000);
                     }
                     else {
@@ -63,19 +67,21 @@ export default function MentalHealth() {
                 } catch (error) {
                     console.error("SOS Fetch Error:", error);
                     setIsSosLoading(false);
+                    setShowSosConfirm(false); // Reset UI on error
                     alert("Failed to send SOS to the server. Please call security directly.");
                 }
-
 
             }, (error) => {
                 console.error("Location access denied.", error);
                 setIsSosLoading(false);
+                setShowSosConfirm(false); // Reset UI on error
                 alert("Please enable browser location services so security can find you!");
             }, {
                 enableHighAccuracy: true
             });
         } else {
             setIsSosLoading(false);
+            setShowSosConfirm(false); // Reset UI on error
             alert("Your browser does not support Geolocation.");
         }
     };
@@ -115,15 +121,12 @@ export default function MentalHealth() {
                             Back to Dashboard
                         </button>
 
-                        {/* YOUR PRE-BUILT COMPONENT */}
-                        {/* Note: Adjust these prop names if you called them something else in WellnessBooking.jsx! */}
                         <WellnessBooking
                             counselor={selectedCounselor}
                             onCancel={() => setSelectedCounselor(null)}
                             onSuccess={(message) => {
                                 setBookingMessage(message);
                                 setSelectedCounselor(null);
-                                // Optional: clear the message after 5 seconds so it doesn't stay forever
                                 setTimeout(() => setBookingMessage(''), 5000);
                             }}
                         />
@@ -140,17 +143,35 @@ export default function MentalHealth() {
                                 <p className="text-rose-600 font-medium">Trigger an SOS to securely send your live location to Campus Security.</p>
                             </div>
 
-                            <div className="flex gap-4">
-                                <button
-                                    onClick={handleSOSAlert}
-                                    disabled={isSosLoading}
-                                    className={`font-bold py-3 px-6 rounded-xl transition shadow-sm w-full sm:w-auto ${isSosLoading
-                                        ? 'bg-rose-400 cursor-wait text-white'
-                                        : 'bg-rose-600 hover:bg-rose-700 text-white'
-                                        }`}
-                                >
-                                    {isSosLoading ? '📍 Locating GPS...' : '🚨 Trigger Emergency SOS'}
-                                </button>
+                            {/* UPDATED: 2-Step Confirmation UI */}
+                            <div className="flex gap-4 w-full sm:w-auto">
+                                {showSosConfirm ? (
+                                    <div className="flex gap-2 w-full sm:w-auto animate-fade-in">
+                                        <button
+                                            onClick={() => setShowSosConfirm(false)}
+                                            className="px-4 py-3 bg-slate-200 text-slate-700 hover:bg-slate-300 font-bold rounded-xl transition"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            onClick={handleSOSAlert}
+                                            disabled={isSosLoading}
+                                            className={`font-bold py-3 px-6 rounded-xl transition shadow-sm w-full sm:w-auto text-white ${isSosLoading
+                                                ? 'bg-rose-400 cursor-wait'
+                                                : 'bg-rose-600 hover:bg-rose-700 animate-pulse'
+                                                }`}
+                                        >
+                                            {isSosLoading ? '📍 Locating GPS...' : '⚠️ CONFIRM SOS'}
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={() => setShowSosConfirm(true)}
+                                        className="bg-white border-2 border-rose-600 text-rose-700 hover:bg-rose-600 hover:text-white font-bold py-3 px-6 rounded-xl transition shadow-sm w-full sm:w-auto"
+                                    >
+                                        🚨 Trigger Emergency SOS
+                                    </button>
+                                )}
                             </div>
                         </div>
 
@@ -261,7 +282,5 @@ export default function MentalHealth() {
                 )}
             </div>
         </div>
-    )
-
+    );
 }
-

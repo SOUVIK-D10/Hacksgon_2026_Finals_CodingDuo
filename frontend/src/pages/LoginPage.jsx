@@ -39,8 +39,11 @@ export default function LoginPage() {
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('role', data.role);
 
-                // Go to the dashboard
-                navigate('/dashboard');
+                if (data.role === 'ADMIN') {
+                    navigate('/admin/inbox'); // Route to admin side
+                } else {
+                    navigate('/dashboard'); // Route to student side
+                }
             }
             else {
                 // Backend rejected the login (e.g., wrong password)

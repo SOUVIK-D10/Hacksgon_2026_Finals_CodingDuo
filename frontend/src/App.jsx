@@ -17,6 +17,11 @@ function App() {
         <Route path="/academics" element={<Academics />} />
         <Route path="/grievances" element={<Grievances />} />
         <Route path="/mental-health" element={<MentalHealth />} />
+        <Route path="/admin/inbox" element={
+          <AdminLayout>
+            <AdminInbox />
+          </AdminLayout>
+        } />
       </Routes>
     </Router>
   );
