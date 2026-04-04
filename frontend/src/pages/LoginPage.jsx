@@ -14,6 +14,13 @@ export default function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+
+        const collegeDomain = "@nitdgp.ac.in";
+        if (!email.endsWith(collegeDomain)) {
+            alert(`Access Denied: You must use your official ${collegeDomain} email to access the campus portal.`);
+            return;
+        }
+
         setIsLoading(true);
 
         try {

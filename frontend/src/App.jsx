@@ -5,6 +5,8 @@ import Dashboard from './pages/Dashboard';
 import Grievances from './pages/Grievances';
 import Academics from './pages/Academics';
 import MentalHealth from './pages/MentalHealth';
+import AdminLayout from './components/AdminLayout';
+import AdminInbox from './components/AdminInbox';
 
 function App() {
   return (
