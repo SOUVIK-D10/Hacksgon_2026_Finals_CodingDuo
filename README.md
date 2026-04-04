@@ -12,35 +12,38 @@ run command ngrok http 8080
 3) Paste the below and fill the un-filled depecdencies
    spring.application.name=api
 ------------------------------------------------------------------------------------------------------------------------------
-#Database config
-spring.datasource.url=
-spring.datasource.username=
-spring.datasource.password=
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-#JWT Config
-accesstoken.key=
-refreshtoken.key=
-accesstoken.life=
-refreshtoken.life=
-#Mail
-spring.mail.host=smtp.gmail.com
-spring.mail.port=587
-spring.mail.username=
-spring.mail.password=
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
-groq.api.key=
-groq.api.url=https://api.groq.com/openai/v1/chat/completions
-college.email.domain=@nitdgp.ac.in
+#Database config<br>
+spring.datasource.url=<br>
+spring.datasource.username=<br>
+spring.datasource.password=<br>
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver<br>
+spring.jpa.hibernate.ddl-auto=update<br>
+spring.jpa.show-sql=true<br>
+#JWT Config<br>
+accesstoken.key=<br>
+refreshtoken.key=<br>
+accesstoken.life=<br>
+refreshtoken.life=<br>
+#Mail<br>
+spring.mail.host=smtp.gmail.com<br>
+spring.mail.port=587<br>
+spring.mail.username=<br>
+spring.mail.password=<br>
+spring.mail.properties.mail.smtp.auth=true<br>
+spring.mail.properties.mail.smtp.starttls.enable=true<br>
+groq.api.key=<br>
+groq.api.url=https://api.groq.com/openai/v1/chat/completions<br>
+college.email.domain=@nitdgp.ac.in<br>
+
 --------------------------------------------------------------------------------------------------
-4)Open UserController and delete the 'if admin' part from registration.
-5)Send an register 2 endpoint request in it and obtain a entry.
-6)Go to database and set role of that entity to ADMIN to one.
-7) ensure spring boot is set up and jar package in target is up-to-date
-8) run command mvn springboot:run
-9) backend good to go.
+4)Open UserController and delete the 'if admin' part from registration.<br>
+5)Send an register 2 endpoint request in it and obtain a entry.<br>
+6)Go to database and set role of that entity to ADMIN to one.<br>
+7) ensure spring boot is set up and jar package in target is up-to-date<br>
+8) run command mvn springboot:run<br>
+9) backend good to go.<br>
+<br>
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 FRONTEND : 
 💻 Frontend Setup (React + Vite)
