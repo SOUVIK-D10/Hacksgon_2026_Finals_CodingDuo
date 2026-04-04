@@ -57,7 +57,7 @@ export default function AdminInbox() {
             const token = localStorage.getItem('accessToken');
 
             const endpoint = isSolving
-                ? `${API_URL}/api/ticket/solve/${selectedTicket.ticketId}`
+                ? `${API_URL}/api/ticket/solved/${selectedTicket.ticketId}`
                 : `${API_URL}/api/ticket/seen/${selectedTicket.ticketId}`;
 
             const requestOptions = {
