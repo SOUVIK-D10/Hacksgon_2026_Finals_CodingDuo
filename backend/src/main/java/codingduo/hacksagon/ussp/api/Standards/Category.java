@@ -23,6 +23,7 @@ public class Category {
         "NOTES",
         "PREVIOUS_PAPERS",
         "LAB",
-        "ACADEMIC"
+        "ACADEMIC",
+        "BOOKS"
     );
 }
