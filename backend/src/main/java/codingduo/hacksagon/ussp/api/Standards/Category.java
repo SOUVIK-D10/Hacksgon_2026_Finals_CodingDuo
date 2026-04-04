@@ -15,8 +15,8 @@ public class Category {
     );
     public static final Set<String> NOTICE_CATEGORIES = Set.of(
         "ACADEMIC",
-        "GENERAL",
-        "URGENT"
+        "HOSTEL",
+        "GENERAL"
     );
     public static final Set<String> RESOURCE_CATEGORIES = Set.of(
         "SYLLABUS",
