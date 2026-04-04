@@ -2,6 +2,7 @@ package codingduo.hacksagon.ussp.api.Controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import codingduo.hacksagon.ussp.api.DTO.AppointmentResponseDTO;
 import codingduo.hacksagon.ussp.api.DTO.SlotResponse;
 import codingduo.hacksagon.ussp.api.DTO.SosDTO;
+import codingduo.hacksagon.ussp.api.Exception.GeneralException;
+import codingduo.hacksagon.ussp.api.Model.BookingRequest;
 import codingduo.hacksagon.ussp.api.Model.UserData;
 import codingduo.hacksagon.ussp.api.Service.WellbeingService;
 
@@ -38,6 +42,17 @@ public class WellbeingController {
                 return new ResponseEntity<>(service.getSlots(counselorId, date),HttpStatus.OK);
     }
 
-    // @PostMapping("/api/wellbeing/appointment/book")
+    @PostMapping("/api/wellbeing/appointment/book")
+    public ResponseEntity<Map<String, String>> bookSlot(
+        @AuthenticationPrincipal UserData details,
+        @RequestBody BookingRequest request
+    ) throws GeneralException{
+        return new ResponseEntity<>(service.bookSlot(details.getUserId(), request),HttpStatus.CREATED);
+    }
+
+    @GetMapping("/api/wellbeing/appointment/my-history")
+    public ResponseEntity<List<AppointmentResponseDTO>> getHistory(@AuthenticationPrincipal UserData details){
+        return new ResponseEntity<>(service.history(details.getUserId()),HttpStatus.OK);
+    }
 
 }
