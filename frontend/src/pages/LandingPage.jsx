@@ -3,6 +3,16 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 export default function LandingPage() {
+
+  // For smooth scrolling to respective sections
+  const scrollToSection = (e, sectionId) => {
+    e.preventDefault(); // Stop the default instant jump
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="bg-slate-50 text-slate-900 scroll-smooth min-h-screen flex flex-col font-sans">
 
@@ -11,9 +21,9 @@ export default function LandingPage() {
         // Title defaults to "Unified Student Support Platform" so we don't need to pass it
         rightElement={
           <>
-            <a href="#about" className="text-slate-600 hover:text-slate-900 transition">About</a>
-            <a href="#features" className="text-slate-600 hover:text-slate-900 transition">Features</a>
-            <Link to="/login" className="text-slate-600 hover:text-slate-900 transition">Login</Link>
+            <a href="#about" onClick={(e) => scrollToSection(e, 'about')} className="text-slate-600 hover:text-slate-900 transition cursor-pointer">About</a>
+            <a href="#features" onClick={(e) => scrollToSection(e, 'features')} className="text-slate-600 hover:text-slate-900 transition cursor-pointer">Features</a>
+            <Link to="/login" className="text-slate-600 hover:text-slate-900 transition font-medium">Login</Link>
           </>
         }
       />

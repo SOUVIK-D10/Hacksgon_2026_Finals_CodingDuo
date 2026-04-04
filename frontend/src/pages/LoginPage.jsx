@@ -13,7 +13,7 @@ export default function LoginPage() {
     // This runs when login is clicked
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(' ');
+        setError('');
         setIsLoading(true);
 
         try {
