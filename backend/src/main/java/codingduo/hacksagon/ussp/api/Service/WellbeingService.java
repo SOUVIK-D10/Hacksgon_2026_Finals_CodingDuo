@@ -28,6 +28,7 @@ public class WellbeingService {
     public WellbeingService(EmailService service, AppointmentRepo appointmentRepository) {
         this.service = service;
         this.appointmentRepository = appointmentRepository;
+
     }
 
     public void sendAlart(int userId, String latitude, String longitude) {
@@ -68,14 +69,18 @@ public class WellbeingService {
             Map<String, String> response = new HashMap<>();
             response.put("message", "Appointment booked successfully!");
             int cId = request.getCounselorId().intValue();
-            String counselorName = (cId < CounselorData.COUNSELORS.length) ? CounselorData.COUNSELORS[cId][0] : "Counselor";
+            String counselorName = (cId < CounselorData.COUNSELORS.length) ? CounselorData.COUNSELORS[cId][0]
+                    : "Counselor";
+            // Inside your Controller or Manager class
             String emailBody = "NEW APPOINTMENT CONFIRMED\n\n" +
                     "Counselor: " + counselorName + "\n" +
                     "Student ID: " + userId + "\n" +
                     "Date: " + request.getPreferredDate() + "\n" +
                     "Time: " + request.getPreferredTime() + "\n" +
                     "Category: " + request.getCategory() + "\n\n" +
-                    "Student Notes: " + (request.getNotes() != null ? request.getNotes() : "No notes provided.");
+                    "Student Notes: "
+                    + (request.getNotes() != null ? request.getNotes()
+                            : "No notes provided.");
             service.sendMail("atherline01@gmail.com", "New Appointment Booking", emailBody);
             return response;
 
@@ -86,12 +91,13 @@ public class WellbeingService {
         }
     }
 
-    public List<AppointmentResponseDTO> history(int userId){
+    public List<AppointmentResponseDTO> history(int userId) {
         List<Appointment> appointments = appointmentRepository.findByStudentId(userId);
         List<AppointmentResponseDTO> dto = new ArrayList<>();
-        for(Appointment a:appointments){
-            dto.add(new AppointmentResponseDTO(a.getId(), CounselorData.COUNSELORS[a.getCounselorId().intValue()][0], CounselorData.COUNSELORS[a.getCounselorId().intValue()][1], a.getAppointmentDate(),
-            a.getAppointmentTime(), a.getCategory(), a.getStatus()));
+        for (Appointment a : appointments) {
+            dto.add(new AppointmentResponseDTO(a.getId(), CounselorData.COUNSELORS[a.getCounselorId().intValue()][0],
+                    CounselorData.COUNSELORS[a.getCounselorId().intValue()][1], a.getAppointmentDate(),
+                    a.getAppointmentTime(), a.getCategory(), a.getStatus()));
         }
         return dto;
     }

@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
     private final RefreshTokenRepo db2;
     private final JWTService jwtService;
     private final ApplicationContext context;
-    @Value("college.email.domain")
+    @Value("${college.email.domain}")
     private String domain;
 
     @Autowired

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import codingduo.hacksagon.ussp.api.DTO.DraftDTO;
 import codingduo.hacksagon.ussp.api.DTO.TicketDTO;
 import codingduo.hacksagon.ussp.api.Service.AIService;
 @RestController
@@ -21,12 +21,13 @@ public class AIController {
     public ResponseEntity<String> categorize(@RequestBody TicketDTO dto){
         return new ResponseEntity<>(service.askLlama("Title:"+dto.title()+" Description : "+dto.content()+" Assess the category as per given by system"),HttpStatus.OK);
     }
-    // @PostMapping("/api/notice/categorize")
-    // public ResponseEntity<String> categorize(@RequestBody Notice notice){
-    //     return new ResponseEntity<>(service.askLlama("Title:"+dto.title()+" Description : "+dto.content()+" Assess the category as per given by system"),HttpStatus.OK);
-    // }
-    /*@PostMapping("/api/notice/auto-write")
-    public ResponseEntity<NoteDTO> autoWrite(@RequestBody NoteDTO dto){
+    @PostMapping("/api/notice/enhance")
+    public ResponseEntity<String> enhanceNotice(@RequestBody DraftDTO dto) {
+        if (dto.text() == null || dto.text().trim().isEmpty()) {
+            return new ResponseEntity<>("Draft cannot be empty", HttpStatus.BAD_REQUEST);
+        }
         
-    }*/
+        String enhancedText = service.enhanceNotice(dto.text());
+        return new ResponseEntity<>(enhancedText, HttpStatus.OK);
+    }
 }

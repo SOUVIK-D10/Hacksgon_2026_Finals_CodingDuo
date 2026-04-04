@@ -2,10 +2,12 @@ package codingduo.hacksagon.ussp.api.Model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 @Entity
 @Table(name = "notice")
@@ -14,6 +16,7 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int noteId;
     private String title;
+    @Lob
     private String content;
     private String category;
     private boolean urgent;
