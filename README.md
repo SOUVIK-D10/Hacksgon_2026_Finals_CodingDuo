@@ -1,5 +1,76 @@
 # Hacksgon_2026_Finals_CodingDuo
 
+## HOW TO RUN
+Set up backend :
+
+install ngrok
+set up ngrok
+run command ngrok http 8080
+
+1) make a folder src/main/resources
+2) make a application.properties
+3) Paste the below and fill the un-filled depecdencies
+   spring.application.name=api
+------------------------------------------------------------------------------------------------------------------------------
+#Database config
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+#JWT Config
+accesstoken.key=
+refreshtoken.key=
+accesstoken.life=
+refreshtoken.life=
+#Mail
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=
+spring.mail.password=
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+groq.api.key=
+groq.api.url=https://api.groq.com/openai/v1/chat/completions
+college.email.domain=@nitdgp.ac.in
+--------------------------------------------------------------------------------------------------
+4)Open UserController and delete the 'if admin' part from registration.
+5)Send an register 2 endpoint request in it and obtain a entry.
+6)Go to database and set role of that entity to ADMIN to one.
+7) ensure spring boot is set up and jar package in target is up-to-date
+8) run command mvn springboot:run
+9) backend good to go.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+FRONTEND : 
+💻 Frontend Setup (React + Vite)
+
+The frontend is a high-performance SPA built with Vite, utilizing Tailwind CSS for styling and Framer Motion for fluid UI animations.
+
+Navigate to the frontend directory:
+
+Bash
+cd client
+Install dependencies:
+This will install React, Vite, Framer Motion, React Router Dom, and the Tailwind CSS suite.
+
+Bash
+npm install
+Configure Environment Variables:
+Create a .env file in the root of the /client directory. This is crucial for connecting to the backend via your Ngrok tunnel or local server.
+
+Code snippet
+# Replace with your actual Ngrok or Backend URL
+VITE_API_BASE_URL=https://your-ngrok-url-here.ngrok-free.dev
+Launch the Development Server:
+
+Bash
+npm run dev
+The app will be accessible at http://localhost:5173 (unless configured otherwise).
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 ## 🎓 Unified Student Support Platform
 
 **One Platform. Total Campus Control.**
