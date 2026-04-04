@@ -41,13 +41,13 @@ public class TicketController {
     public ResponseEntity<Page<Ticket>> getAll(
             @AuthenticationPrincipal UserData details,
             @RequestParam(value = "page", required = false, defaultValue = "0") @NotNull Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "3") @NotNull Integer size,
+            @RequestParam(value = "size", required = false, defaultValue = "10") @NotNull Integer size,
             @RequestParam(value = "sortby", required = false, defaultValue = "ticketId") @NotNull String sortby,
-            @RequestParam(value = "dir", required = false, defaultValue = "asc") @NotNull String dir,
+            @RequestParam(value = "dir", required = false, defaultValue = "desc") @NotNull String dir,
             @RequestParam(value = "category", required = false) String category) throws GeneralException {
         Sort sort = null;
-        if (size > 10)
-            size = 10;
+        if (size > 100)
+            size = 100;
         if (size < 1)
             size = 3;
         if (sortby.equalsIgnoreCase("userId"))
