@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage'; import LoginPage from './pages/Lo
 import Dashboard from './pages/Dashboard';
 import Grievances from './pages/Grievances';
 import Academics from './pages/Academics';
+import MentalHealth from './pages/MentalHealth';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/academics" element={<Academics />} />
         <Route path="/grievances" element={<Grievances />} />
+        <Route path="/mental-health" element={<MentalHealth />} />
       </Routes>
     </Router>
   );
