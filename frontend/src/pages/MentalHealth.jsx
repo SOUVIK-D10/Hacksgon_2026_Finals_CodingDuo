@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import WellnessBooking from '../components/WellnessBooking'
+import MyAppointments from '../components/MyAppointments';
 
 export default function MentalHealth() {
 
@@ -221,6 +222,10 @@ export default function MentalHealth() {
                                 <button onClick={() => setBookingMessage('')} className="text-emerald-600 hover:text-emerald-800 font-bold">✕</button>
                             </div>
                         )}
+
+                        <div className="mb-12 animate-fade-in">
+                            <MyAppointments />
+                        </div>
 
                         {/* MAIN OVERVIEW: COUNSELORS */}
                         <div className="animate-fade-in">
