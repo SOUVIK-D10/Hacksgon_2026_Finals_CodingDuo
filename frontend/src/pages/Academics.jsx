@@ -135,7 +135,7 @@ export default function Academics() {
             (resource.category || '').toUpperCase() === resourceCategory;
     });
 
-     // --- PAGINATION MATH FOR RESOURCES ---
+    // --- PAGINATION MATH FOR RESOURCES ---
     const totalResourcePages = Math.ceil(filteredResources.length / resourcesPerPage);
     const resourceStartIndex = (currentResourcePage - 1) * resourcesPerPage;
     const currentResources = filteredResources.slice(resourceStartIndex, resourceStartIndex + resourcesPerPage);
@@ -147,7 +147,13 @@ export default function Academics() {
 
     return (
         <div>
-            <Navbar />
+            
+            <Navbar
+                title="Academic Hub"
+                icon="📚" // You could also use "🎓" or "💡"
+                themeColor="amber"
+            />
+
 
             {/* MAIN LAYOUT */}
             <div className="container mx-auto px-6 py-8 max-w-7xl flex-grow">
