@@ -27,7 +27,8 @@ public class Appointment {
     
     private String notes;
     private int studentId;
-    private String status; // e.g., "CONFIRMED"
+    private String status;
+    private String meetLink; // e.g., "CONFIRMED"
 
     // Default Constructor
     public Appointment() {}
@@ -69,5 +70,11 @@ public class Appointment {
     }
     public int getStudentId() {
         return studentId;
+    }
+    public String getMeetLink() {
+        return meetLink;
+    }
+    public void setMeetLink(String meetLink) {
+        this.meetLink = meetLink;
     }
 }

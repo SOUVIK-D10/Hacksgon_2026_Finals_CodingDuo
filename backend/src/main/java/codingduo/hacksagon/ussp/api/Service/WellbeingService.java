@@ -23,12 +23,13 @@ import codingduo.hacksagon.ussp.api.Standards.CounselorData;
 public class WellbeingService {
     private EmailService service;
     private AppointmentRepo appointmentRepository;
+    private JitsiService jitsiService;
 
     @Autowired
-    public WellbeingService(EmailService service, AppointmentRepo appointmentRepository) {
+    public WellbeingService(EmailService service, AppointmentRepo appointmentRepository, JitsiService jitsiServicey) {
         this.service = service;
         this.appointmentRepository = appointmentRepository;
-
+        this.jitsiService = jitsiServicey;
     }
 
     public void sendAlart(int userId, String latitude, String longitude) {
@@ -56,6 +57,7 @@ public class WellbeingService {
     public Map<String, String> bookSlot(int userId, BookingRequest request) throws GeneralException {
         try {
             Appointment newAppointment = new Appointment();
+            String meetLink = jitsiService.createMeeting("Counseling-Session");
             newAppointment.setStudentId(userId);
             newAppointment.setCounselorId(request.getCounselorId());
             newAppointment.setAppointmentDate(request.getPreferredDate());
@@ -63,25 +65,24 @@ public class WellbeingService {
             newAppointment.setCategory(request.getCategory());
             newAppointment.setNotes(request.getNotes());
             newAppointment.setStatus("CONFIRMED");
-
-            appointmentRepository.save(newAppointment);
+            newAppointment.setMeetLink(meetLink);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "Appointment booked successfully!");
             int cId = request.getCounselorId().intValue();
             String counselorName = (cId < CounselorData.COUNSELORS.length) ? CounselorData.COUNSELORS[cId][0]
                     : "Counselor";
-            // Inside your Controller or Manager class
             String emailBody = "NEW APPOINTMENT CONFIRMED\n\n" +
                     "Counselor: " + counselorName + "\n" +
                     "Student ID: " + userId + "\n" +
                     "Date: " + request.getPreferredDate() + "\n" +
                     "Time: " + request.getPreferredTime() + "\n" +
                     "Category: " + request.getCategory() + "\n\n" +
-                    "Student Notes: "
-                    + (request.getNotes() != null ? request.getNotes()
-                            : "No notes provided.");
+                    "Student Notes: " + (request.getNotes() != null ? request.getNotes() : "No notes provided.")
+                    + "\n\n" +
+                    "Meeting Link: " + meetLink;
             service.sendMail("atherline01@gmail.com", "New Appointment Booking", emailBody);
+            appointmentRepository.save(newAppointment);
             return response;
 
         } catch (DataIntegrityViolationException e) {
@@ -97,7 +98,7 @@ public class WellbeingService {
         for (Appointment a : appointments) {
             dto.add(new AppointmentResponseDTO(a.getId(), CounselorData.COUNSELORS[a.getCounselorId().intValue()][0],
                     CounselorData.COUNSELORS[a.getCounselorId().intValue()][1], a.getAppointmentDate(),
-                    a.getAppointmentTime(), a.getCategory(), a.getStatus()));
+                    a.getAppointmentTime(), a.getCategory(), a.getStatus(),a.getMeetLink()));
         }
         return dto;
     }

@@ -9,5 +9,6 @@ public record AppointmentResponseDTO (
     LocalDate date,
     String time,
      String category,
-    String status
+    String status,
+    String meetLink
     ){}
