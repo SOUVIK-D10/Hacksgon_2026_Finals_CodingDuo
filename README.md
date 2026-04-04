@@ -95,7 +95,7 @@ PATCH /api/ticket/solved/{id}
 POST /api/sos  
 ⚙️ Local Setup
 1️⃣ Clone Repository
-git clone https://github.com/your-username/unified-student-support.git
+git clone https://github.com/SOUVIK-D10/Hacksgon_2026_Finals_CodingDuo.git
 cd unified-student-support
 2️⃣ Backend Setup (Spring Boot)
 cd server
