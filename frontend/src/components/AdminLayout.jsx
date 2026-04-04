@@ -13,7 +13,7 @@ export default function AdminLayout({ children }) {
 
     const navItems = [
         { name: 'Grievance Inbox', path: '/admin/inbox', icon: '📥' },
-        { name: 'AI Notice Co-Pilot', path: '/admin/notices', icon: '✨' }
+        { name: 'Broadcast Center', path: '/admin/broadcast', icon: '📡' }
     ];
 
     return (

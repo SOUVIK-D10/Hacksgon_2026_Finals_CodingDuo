@@ -63,7 +63,7 @@ export default function Academics() {
                 };
 
                 // Fetch 1: Notices
-                const noticeResponse = await fetch(`${API_URL}/api/notice/all`, {
+                const noticeResponse = await fetch(`${API_URL}/api/notice/all?size=10`, {
                     method: 'GET',
                     headers: fetchHeaders
                 });

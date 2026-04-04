@@ -7,6 +7,7 @@ import Academics from './pages/Academics';
 import MentalHealth from './pages/MentalHealth';
 import AdminLayout from './components/AdminLayout';
 import AdminInbox from './components/AdminInbox';
+import AdminBroadcast from './components/AdminBroadcast';
 
 function App() {
   return (
@@ -22,6 +23,11 @@ function App() {
         <Route path="/admin/inbox" element={
           <AdminLayout>
             <AdminInbox />
+          </AdminLayout>
+        } />
+        <Route path="/admin/broadcast" element={
+          <AdminLayout>
+            <AdminBroadcast />
           </AdminLayout>
         } />
       </Routes>
