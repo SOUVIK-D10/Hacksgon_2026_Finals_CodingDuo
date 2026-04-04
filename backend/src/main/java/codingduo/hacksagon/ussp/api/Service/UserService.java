@@ -1,6 +1,7 @@
 package codingduo.hacksagon.ussp.api.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,13 +31,15 @@ public class UserService implements UserDetailsService {
     private final RefreshTokenRepo db2;
     private final JWTService jwtService;
     private final ApplicationContext context;
+    @Value("college.email.domain")
+    private String domain;
 
     @Autowired
     public UserService(UserRepo db,
             RefreshTokenService rtService,
             RefreshTokenRepo db2,
             JWTService jwtService,
-            ApplicationContext context) { 
+            ApplicationContext context) {
         this.db = db;
         this.rtService = rtService;
         this.db2 = db2;
@@ -45,6 +48,7 @@ public class UserService implements UserDetailsService {
     }
 
     public HttpStatus register(Users user) throws GeneralException {
+        if(!user.getEmail().endsWith(domain)) throw new GeneralException("401:Invalid domain");
         if (db.findByEmail(user.getEmail()) != null)
             throw new GeneralException("409:Email already exists");
         BCryptPasswordEncoder encoder = context.getBean(BCryptPasswordEncoder.class);
