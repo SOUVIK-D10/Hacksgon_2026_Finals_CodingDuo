@@ -16,6 +16,7 @@ public class Notice {
     private String title;
     private String content;
     private String category;
+    private boolean urgent;
     private LocalDateTime createdAt;
     public void setCategory(String category) {
         this.category = category;
@@ -43,5 +44,11 @@ public class Notice {
     }
     public String getTitle() {
         return title;
+    }
+    public void setUrgent(boolean urgent) {
+        this.urgent = urgent;
+    }
+    public boolean isUrgent() {
+        return urgent;
     }
 }
