@@ -24,6 +24,16 @@ export default function Academics() {
     const [noticeCategory, setNoticeCategory] = useState('ALL');
     const [resourceCategory, setResourceCategory] = useState('ALL');
 
+    // Pagination State (For Resources Only)
+    const [currentResourcePage, setCurrentResourcePage] = useState(1);
+    const resourcesPerPage = 10;
+
+    // Reset to page 1 anytime the user changes the resource category filter
+    useEffect(() => {
+        setCurrentResourcePage(1);
+    }, [resourceCategory]);
+
+
     // Student Profile State
     const [animatedAttendance, setAnimatedAttendance] = useState(0);
     const studentData = {
@@ -74,7 +84,7 @@ export default function Academics() {
 
                 if (resourceResponse.ok) {
                     const resourceData = await resourceResponse.json();
-                    setNotices(resourceData.content || resourceData || []);
+                    setResources(resourceData.content || resourceData || []);
 
                 } else {
                     console.error("Failed to fetch resources:", resourceResponse.status);
@@ -124,6 +134,12 @@ export default function Academics() {
         return resourceCategory === 'ALL' ||
             (resource.category || '').toUpperCase() === resourceCategory;
     });
+
+     // --- PAGINATION MATH FOR RESOURCES ---
+    const totalResourcePages = Math.ceil(filteredResources.length / resourcesPerPage);
+    const resourceStartIndex = (currentResourcePage - 1) * resourcesPerPage;
+    const currentResources = filteredResources.slice(resourceStartIndex, resourceStartIndex + resourcesPerPage);
+
 
     const radius = 60;
     const circumference = 2 * Math.PI * radius;
@@ -221,7 +237,7 @@ export default function Academics() {
                                 <p className="col-span-1 md:col-span-2 p-8 text-slate-500 text-center bg-white rounded-2xl border border-slate-200">No resources available.</p>
                             ) : (
                                 // INDEX FALLBACK HERE
-                                filteredResources.map((resource, index) => (
+                                currentResources.map((resource, index) => (
                                     <div key={index} className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition group cursor-pointer flex flex-col justify-between">
                                         <div>
                                             <div className="flex justify-between items-start mb-3">
@@ -253,6 +269,31 @@ export default function Academics() {
                             }
 
                         </div>
+
+                        {/* --- RESOURCE PAGINATION CONTROLS --- */}
+                        {totalResourcePages > 1 && (
+                            <div className="flex items-center justify-between bg-white px-6 py-4 border border-slate-200 rounded-2xl mt-2 shadow-sm">
+                                <button
+                                    onClick={() => setCurrentResourcePage(prev => Math.max(prev - 1, 1))}
+                                    disabled={currentResourcePage === 1}
+                                    className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+                                </button>
+
+                                <span className="text-sm font-semibold text-slate-600">
+                                    Page {currentResourcePage} of {totalResourcePages}
+                                </span>
+
+                                <button
+                                    onClick={() => setCurrentResourcePage(prev => Math.min(prev + 1, totalResourcePages))}
+                                    disabled={currentResourcePage === totalResourcePages}
+                                    className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        )}
 
                     </div>
 

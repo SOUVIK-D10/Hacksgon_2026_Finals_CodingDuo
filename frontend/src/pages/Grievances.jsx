@@ -19,6 +19,15 @@ export default function Grievances() {
     const [statusFilter, setStatusFilter] = useState('ALL')
     const [categoryFilter, setCategoryFilter] = useState('ALL')
 
+    // Pagination State
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    // Reset to page 1 anytime the user types a search or changes a filter
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, statusFilter, categoryFilter]);
+
     useEffect(() => {
         const fetchMyTickets = async () => {
             try {
@@ -31,7 +40,8 @@ export default function Grievances() {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'ngrok-skip-browser-warning': 'true'
-                    }
+                    },
+                    cache: 'no-store'
 
                 })
 
@@ -169,6 +179,13 @@ export default function Grievances() {
 
     });
 
+    // 1. Calculate total pages
+    const totalPages = Math.ceil(filteredTickets.length / itemsPerPage);
+
+    // 2. Chopping the filtered array into a 10-item chunk
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentTickets = filteredTickets.slice(startIndex, startIndex + itemsPerPage);
+
     return (
         <div className="bg-slate-50 min-h-screen font-sans flex flex-col">
             <Navbar title="Grievance Redressal" icon="📢" themeColor="indigo" />
@@ -248,12 +265,11 @@ export default function Grievances() {
                             </form>
                         </div>
 
-
                     </div>
 
                     {/* RIGHT COLUMN */}
-                    <div>
-                        <h2>My Tickets</h2>
+                    <div className="w-full lg:w-2/3">
+                        <h2 className="text-2xl font-extrabold text-slate-800 mb-4">My Tickets</h2>
                         {/* Filters */}
                         <div>
                             <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-6 flex flex-col md:flex-row gap-4">
@@ -300,7 +316,7 @@ export default function Grievances() {
                                         No grievances found. You are all caught up!
                                     </div>
                                 ) : (
-                                    filteredTickets.map((ticket, index) => (
+                                    currentTickets.map((ticket, index) => (
                                         <div key={ticket.ticketId || index} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:shadow-md transition">
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-3 mb-2">
@@ -338,6 +354,33 @@ export default function Grievances() {
                                     ))
                                 )}
                             </div>
+
+                            {/* Pagination Controls */}
+                            {totalPages > 1 && (
+                                <div className="flex items-center justify-between bg-white px-6 py-4 border border-slate-200 rounded-2xl mt-6 shadow-sm">
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                        disabled={currentPage === 1}
+                                        className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                                    >
+                                        {/* Left Arrow Icon */}
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+                                    </button>
+
+                                    <span className="text-sm font-semibold text-slate-600">
+                                        Page {currentPage} of {totalPages}
+                                    </span>
+
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                        disabled={currentPage === totalPages}
+                                        className="p-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                                    >
+                                        {/* Right Arrow Icon */}
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
 
